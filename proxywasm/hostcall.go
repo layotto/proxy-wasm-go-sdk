@@ -826,3 +826,13 @@ func replaceBuffer(bufType internal.BufferType, buffer []byte) error {
 		internal.ProxySetBufferBytes(bufType, 0, math.MaxInt32, bufferData, len(buffer)),
 	)
 }
+
+func SetCallData(buffer []byte) error {
+	var bufferData *byte
+	if len(buffer) != 0 {
+		bufferData = &buffer[0]
+	}
+	return internal.StatusToError(
+		internal.ProxySetBufferBytes(internal.BufferTypeCallData, 0, math.MaxInt32, bufferData, len(buffer)),
+	)
+}
