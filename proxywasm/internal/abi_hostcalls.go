@@ -105,3 +105,9 @@ func ProxyGetProperty(pathData *byte, pathSize int, returnValueData **byte, retu
 
 //export proxy_set_property
 func ProxySetProperty(pathData *byte, pathSize int, valueData *byte, valueSize int) Status
+
+//export proxy_get_state
+func ProxyGetState(storeNamePtr *byte, storeNameSize int, keyPtr *byte, keySize int, valuePtr **byte, valueSize *int) Status
+
+//export proxy_invoke_service
+func ProxyInvokeService(idPtr *byte, idSize int, methodPtr *byte, methodSize int, paramPtr *byte, paramSize int, resultPtr **byte, resultSize *int) Status

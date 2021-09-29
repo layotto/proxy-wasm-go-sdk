@@ -836,3 +836,34 @@ func SetCallData(buffer []byte) error {
 		internal.ProxySetBufferBytes(internal.BufferTypeCallData, 0, math.MaxInt32, bufferData, len(buffer)),
 	)
 }
+
+func GetState(storeName string, key string) (value string, err error) {
+	storeNamePtr := internal.StringBytePtr(storeName)
+	keyPtr := internal.StringBytePtr(key)
+
+	var valuePtr *byte
+	var valueSize int
+
+	switch st := internal.ProxyGetState(storeNamePtr, len(storeName), keyPtr, len(key), &valuePtr, &valueSize); st {
+	case internal.StatusOK:
+		return internal.RawBytePtrToString(valuePtr, valueSize), nil
+	default:
+		return "", internal.StatusToError(st)
+	}
+}
+
+func InvokeService(id string, method string, param string) (result string, err error) {
+	idPtr := internal.StringBytePtr(id)
+	methodPtr := internal.StringBytePtr(method)
+	paramPtr := internal.StringBytePtr(param)
+
+	var resultPtr *byte
+	var resultSize int
+
+	switch st := internal.ProxyInvokeService(idPtr, len(id), methodPtr, len(method), paramPtr, len(param), &resultPtr, &resultSize); st {
+	case internal.StatusOK:
+		return internal.RawBytePtrToString(resultPtr, resultSize), nil
+	default:
+		return "", internal.StatusToError(st)
+	}
+}
